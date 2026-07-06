@@ -567,3 +567,204 @@ header h1 {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 6px;
 }
+
+/* Copy to Clipboard card button styling */
+.btn-card-copy {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    padding: 0.4rem;
+    border-radius: 50%;
+}
+
+.btn-card-copy:hover {
+    color: #10b981; /* Green check/success glow */
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+.btn-card-copy.copied {
+    color: #10b981;
+}
+
+/* Actions Header Layout */
+.actions-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Theme Switch Styling */
+.theme-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    border: 1px solid var(--border-subtle);
+}
+
+.theme-icon {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: var(--transition-smooth);
+}
+
+/* Switch background slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #475569;
+    transition: .3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+}
+
+input:checked + .slider {
+    background-color: #6366f1;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #6366f1;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Light Mode Overrides */
+body.light-mode {
+    --bg-dark: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-subtle: rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+}
+
+body.light-mode .glow-bg {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, rgba(248, 250, 252, 0) 70%);
+}
+
+body.light-mode header h1 {
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .controls-panel {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .search-box input {
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+body.light-mode .search-box input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+body.light-mode .chip {
+    background-color: #ffffff;
+}
+
+body.light-mode .chip:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+body.light-mode .chip.active {
+    color: white;
+    background-color: #6366f1;
+}
+
+body.light-mode .note-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+body.light-mode .note-card:hover {
+    background-color: var(--bg-card-hover);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border-color: rgba(15, 23, 42, 0.15);
+}
+
+body.light-mode .note-card.selected {
+    background-color: rgba(99, 102, 241, 0.03);
+}
+
+body.light-mode .card-content {
+    color: #334155;
+}
+
+body.light-mode .btn-secondary {
+    background: rgba(15, 23, 42, 0.05);
+    color: #0f172a;
+}
+
+body.light-mode .btn-secondary:hover {
+    background: rgba(15, 23, 42, 0.1);
+}
+
+body.light-mode .theme-switch-container {
+    background-color: rgba(15, 23, 42, 0.04);
+}
+
+body.light-mode .skeleton-card {
+    background-color: #ffffff;
+}
+
+body.light-mode .skeleton-line, body.light-mode .skeleton-badge {
+    background-color: rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode .btn-card-link:hover {
+    color: #0f172a;
+    background-color: rgba(15, 23, 42, 0.05);
+}
+

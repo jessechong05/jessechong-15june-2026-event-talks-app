@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const filterChips = document.querySelectorAll('.chip');
     const resultsCount = document.getElementById('results-count');
+    const exportCsvBtn = document.getElementById('export-csv-btn');
+    const themeToggle = document.getElementById('theme-toggle');
     
     // Tweet Drawer Elements
     const tweetDrawer = document.getElementById('tweet-drawer');
@@ -102,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="btn-card-link" title="Open Official Release Notes" onclick="window.open('${note.url}', '_blank'); event.stopPropagation();">
                         <i class="fa-solid fa-up-right-from-square"></i>
                     </button>
+                    <button class="btn-card-copy" title="Copy to clipboard" data-index="${index}">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
                     <button class="btn-card-tweet" title="Tweet this update" data-index="${index}">
                         <i class="fa-brands fa-x-twitter"></i>
                     </button>
@@ -111,6 +116,24 @@ document.addEventListener('DOMContentLoaded', () => {
             // Card click listener for selecting to Tweet
             card.addEventListener('click', () => {
                 selectNote(note, card);
+            });
+
+            // Copy button click listener
+            const cardCopyBtn = card.querySelector('.btn-card-copy');
+            cardCopyBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                try {
+                    await navigator.clipboard.writeText(`[${note.type}] [${note.date}] ${cleanText}`);
+                    cardCopyBtn.classList.add('copied');
+                    const icon = cardCopyBtn.querySelector('i');
+                    icon.className = 'fa-solid fa-check';
+                    setTimeout(() => {
+                        cardCopyBtn.classList.remove('copied');
+                        icon.className = 'fa-solid fa-copy';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
             });
 
             // Tweet button directly on the card
@@ -236,6 +259,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initial Fetch
+    // Theme Switch logic
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.checked = true;
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggle.checked = false;
+        }
+    }
+
+    themeToggle.addEventListener('change', () => {
+        if (themeToggle.checked) {
+            document.body.classList.add('light-mode');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // Export CSV logic
+    function exportToCSV() {
+        const query = searchInput.value.toLowerCase().trim();
+        const activeChip = document.querySelector('.chip.active');
+        const activeType = activeChip ? activeChip.getAttribute('data-type') : 'all';
+
+        const filteredNotes = allNotes.filter(note => {
+            const matchesSearch = stripHtml(note.content).toLowerCase().includes(query) || 
+                                   note.date.toLowerCase().includes(query) ||
+                                   note.type.toLowerCase().includes(query);
+            const matchesType = activeType === 'all' || note.type.toLowerCase() === activeType;
+            return matchesSearch && matchesType;
+        });
+
+        if (filteredNotes.length === 0) {
+            alert('No release notes to export.');
+            return;
+        }
+
+        // Format CSV text with proper escaping
+        let csvRows = [];
+        csvRows.push('"Date","Type","Content","URL"');
+
+        filteredNotes.forEach(note => {
+            const date = note.date.replace(/"/g, '""');
+            const type = note.type.replace(/"/g, '""');
+            const content = stripHtml(note.content).replace(/"/g, '""').trim();
+            const url = note.url.replace(/"/g, '""');
+            csvRows.push(`"${date}","${type}","${content}","${url}"`);
+        });
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `bigquery_release_notes_${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    exportCsvBtn.addEventListener('click', exportToCSV);
+
+    // Initial setups
+    initTheme();
     fetchNotes();
 });
