@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigQuery Release Notes Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo-area">
+                <div class="bq-icon">
+                    <i class="fa-solid fa-database"></i>
+                    <i class="fa-solid fa-bolt bolt-sub"></i>
+                </div>
+                <div>
+                    <h1>BigQuery</h1>
+                    <p class="subtitle">Release Notes Hub</p>
+                </div>
+            </div>
+            <div class="actions-area">
+                <button id="refresh-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Search and Filter Panel -->
+        <section class="controls-panel">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search release notes (e.g., embeddings, tables, functions)...">
+            </div>
+            
+            <div class="filter-group">
+                <label>Filter by Type:</label>
+                <div class="filter-chips">
+                    <button class="chip active" data-type="all">All</button>
+                    <button class="chip" data-type="feature"><span class="dot feat"></span>Feature</button>
+                    <button class="chip" data-type="changed"><span class="dot chang"></span>Changed</button>
+                    <button class="chip" data-type="deprecated"><span class="dot deprec"></span>Deprecated</button>
+                    <button class="chip" data-type="fixed"><span class="dot fix"></span>Fixed</button>
+                    <button class="chip" data-type="general"><span class="dot gen"></span>General</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <span id="results-count">Showing 0 updates</span>
+            <span class="instruction-text"><i class="fa-solid fa-info-circle"></i> Click a card to select it for Tweeting</span>
+        </div>
+
+        <!-- Main Feed Grid -->
+        <main class="feed-grid" id="feed-container">
+            <!-- Loading Skeleton State -->
+            <div class="skeleton-card">
+                <div class="skeleton-badge"></div>
+                <div class="skeleton-line title"></div>
+                <div class="skeleton-line text"></div>
+                <div class="skeleton-line text short"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton-badge"></div>
+                <div class="skeleton-line title"></div>
+                <div class="skeleton-line text"></div>
+                <div class="skeleton-line text short"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton-badge"></div>
+                <div class="skeleton-line title"></div>
+                <div class="skeleton-line text"></div>
+                <div class="skeleton-line text short"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Tweet Drawer -->
+    <div class="tweet-drawer" id="tweet-drawer">
+        <div class="drawer-content">
+            <div class="drawer-info">
+                <span class="selected-label">Selected Update:</span>
+                <p id="drawer-preview-text" class="preview-text">No update selected.</p>
+            </div>
+            <div class="drawer-actions">
+                <button id="close-drawer" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i></button>
+                <button id="tweet-now-btn" class="btn btn-tweet">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span>Tweet This Update</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
