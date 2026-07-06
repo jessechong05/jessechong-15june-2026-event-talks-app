@@ -223,6 +223,22 @@ header h1 {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    width: 100%;
+}
+
+.sort-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .sort-group {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 0.25rem;
+    }
 }
 
 .filter-group label {

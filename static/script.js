@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsCount = document.getElementById('results-count');
     const exportCsvBtn = document.getElementById('export-csv-btn');
     const themeToggle = document.getElementById('theme-toggle');
+    const sortToggleBtn = document.getElementById('sort-toggle-btn');
+    const sortIcon = document.getElementById('sort-icon');
+    const sortText = document.getElementById('sort-text');
+    
+    let currentSortOrder = 'desc'; // 'desc' = Newest First, 'asc' = Oldest First
     
     // Tweet Drawer Elements
     const tweetDrawer = document.getElementById('tweet-drawer');
@@ -65,6 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const matchesType = activeType === 'all' || note.type.toLowerCase() === activeType;
 
             return matchesSearch && matchesType;
+        });
+
+        // Sort notes
+        filteredNotes.sort((a, b) => {
+            const dateA = a.iso_date ? new Date(a.iso_date) : new Date(a.date);
+            const dateB = b.iso_date ? new Date(b.iso_date) : new Date(b.date);
+            return currentSortOrder === 'desc' ? dateB - dateA : dateA - dateB;
         });
 
         // Clear feed
@@ -325,6 +337,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     exportCsvBtn.addEventListener('click', exportToCSV);
+
+    // Sort Toggle Listener
+    sortToggleBtn.addEventListener('click', () => {
+        if (currentSortOrder === 'desc') {
+            currentSortOrder = 'asc';
+            sortIcon.className = 'fa-solid fa-arrow-up-wide-short';
+            sortText.textContent = 'Oldest First';
+        } else {
+            currentSortOrder = 'desc';
+            sortIcon.className = 'fa-solid fa-arrow-down-short-wide';
+            sortText.textContent = 'Newest First';
+        }
+        renderNotes();
+    });
 
     // Initial setups
     initTheme();
